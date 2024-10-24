@@ -1,8 +1,13 @@
-package com.angybrids;
+package com.angybrids.pages;
 
+import com.angybrids.blocks.*;
+import com.angybrids.Button;
+import com.angybrids.Main;
+import com.angybrids.powerUps.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -10,15 +15,23 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+
 public class ShopPage implements Screen {
     final Main game;
     private FitViewport viewport;
     private Texture background;
     private Texture title;
     private boolean visibility;
+    private boolean eagleVisible;
+    private boolean powershotVisible;
+    private boolean superchargeVisible;
+    private boolean birdquakesVisible;
+    private boolean potionVisible;
     private ShapeRenderer shapeRenderer;
     private BitmapFont font;
-    
+
     private Texture mapImage;
     private Texture homeImage;
     private Texture birdImage;
@@ -31,32 +44,35 @@ public class ShopPage implements Screen {
     private Texture superchargeImage;
     private Texture birdquakeImage;
     private Texture potionImage;
+    private Texture coin;
     private int coins;
 
-    public ShopPage(Main game) {
+    public ShopPage(Main game) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         this.game = game;
         viewport = new FitViewport(1280, 720);
-        this.background = new Texture("shop.jpeg");
-        this.title = new Texture("shopTitle.png");
+        this.background = new Texture("shop/shop.jpeg");
+        this.title = new Texture("shop/shopTitle.png");
+        this.coin = new Texture("shop/coin.png");
         shapeRenderer = new ShapeRenderer();
         this.font = new BitmapFont();
-        font.getData().setScale(1.5f);
+        font.getData().setScale(2f);
+
         this.mapImage = new Texture("icons/mapIcon.png");
         this.settingImage = new Texture("icons/settingIcon.png");
         this.homeImage = new Texture("icons/homeIcon.png");
         this.birdImage = new Texture("icons/birdIcon.png");
         this.quitImage = new Texture("icons/exitIcon.png");
         this.saveImage = new Texture("icons/saveIcon.png");
-        this.eagleImage = new Texture("powerUp/eagle.png");
-        this.powershotImage = new Texture("powerUp/powerShot.png");
-        this.superchargeImage = new Texture("powerUp/supercharge.png");
-        this.birdquakeImage = new Texture("powerUp/birdquake.png");
-        this.potionImage = new Texture("powerUp/potion.png");
+
+        this.eagleImage = new Eagle().getImage();
+        this.powershotImage = new Powershot().getImage();
+        this.superchargeImage = new Supercharge().getImage();
+        this.birdquakeImage = new Birdquake().getImage();
+        this.potionImage = new Potion().getImage();
     }
 
     @Override
     public void show() {
-
     }
 
     @Override
@@ -100,47 +116,104 @@ public class ShopPage implements Screen {
         settingButton.getButtonSprite().draw(game.batch);
 
         eagleButton.getButtonSprite().draw(game.batch);
+        font.draw(game.batch, "200",eagleButton.getButtonSprite().getX()+50, eagleButton.getButtonSprite().getY()-10);
         powershotButton.getButtonSprite().draw(game.batch);
+        font.draw(game.batch, "200",powershotButton.getButtonSprite().getX()+70, powershotButton.getButtonSprite().getY()-10);
         superchargeButton.getButtonSprite().draw(game.batch);
+        font.draw(game.batch, "200",superchargeButton.getButtonSprite().getX()+65, superchargeButton.getButtonSprite().getY()-10);
         birdquakeButton.getButtonSprite().draw(game.batch);
+        font.draw(game.batch, "200",birdquakeButton.getButtonSprite().getX()+70, birdquakeButton.getButtonSprite().getY()-10);
         potionButton.getButtonSprite().draw(game.batch);
+        font.draw(game.batch, "200",potionButton.getButtonSprite().getX()+65, potionButton.getButtonSprite().getY()-10);
+
 
         if (visibility) {
             quitButton.getButtonSprite().draw(game.batch);
             saveButton.getButtonSprite().draw(game.batch);
         }
-
+        if(eagleVisible){
+            font.setColor(Color.WHITE);
+            font.draw(game.batch, "Mighty Eagle",eagleButton.getButtonSprite().getX()+10, eagleButton.getButtonSprite().getY()+20);
+        }
+        if(powershotVisible){
+            font.setColor(Color.WHITE);
+            font.draw(game.batch, "King Sling",powershotButton.getButtonSprite().getX()+10, powershotButton.getButtonSprite().getY()+20);
+            font.setColor(Color.BLACK);
+        }
+        if(superchargeVisible){
+            font.setColor(Color.WHITE);
+            font.draw(game.batch, "Super Charge",superchargeButton.getButtonSprite().getX()+10, superchargeButton.getButtonSprite().getY()+20);
+            font.setColor(Color.BLACK);
+        }
+        if(potionVisible){
+            font.setColor(Color.WHITE);
+            font.draw(game.batch, "Power Potion",potionButton.getButtonSprite().getX()+10, potionButton.getButtonSprite().getY()+20);
+            font.setColor(Color.BLACK);
+        }
+        if(birdquakesVisible){
+            font.setColor(Color.WHITE);
+            font.draw(game.batch, "Bird Quake",birdquakeButton.getButtonSprite().getX()+10, birdquakeButton.getButtonSprite().getY()+20);
+            font.setColor(Color.BLACK);
+        }
         game.batch.end();
+
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.PINK);
-        shapeRenderer.rect(1000, Gdx.graphics.getHeight() - homeImage.getHeight() / 2 - 40, 70, 25);
+        shapeRenderer.setColor(0.85f, 0.85f, 0.85f, 1f);
+//        shapeRenderer.setColor(135, 127, 125, 1f);
+        shapeRenderer.rect(1000, Gdx.graphics.getHeight() - homeImage.getHeight() / 2 - 50, 120, 45);
         shapeRenderer.end();
-
-
         coins = 1500; //dummy value
-        game.batch.begin();
-        font.draw(game.batch, Integer.toString(coins), 1020, Gdx.graphics.getHeight() - homeImage.getHeight() / 2 - 20);
 
+        game.batch.begin();
+        font.setColor(0, 0, 0, 1f);
+        font.draw(game.batch, Integer.toString(coins), 1045, Gdx.graphics.getHeight() - homeImage.getHeight() / 2 - 20);
+        game.batch.draw(coin, 950, Gdx.graphics.getHeight() - homeImage.getHeight() / 2 - 50,
+            1 * coin.getWidth() / 11, 1 * coin.getWidth() / 11);
         game.batch.end();
 
+        float touchX = Gdx.input.getX();
+        float touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
+        if ((settingButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY))
+            || (birdButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY))
+            || (mapButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY))
+            || (homeButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY))
+            || (visibility && quitButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY)))
+            Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Hand);
+        else if ((visibility && saveButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY)))
+            Gdx.graphics.setSystemCursor(Cursor.SystemCursor.NotAllowed);
+        else if(eagleButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY))
+            eagleVisible=true;
+        else if(birdquakeButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY))
+            birdquakesVisible=true;
+        else if(potionButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY))
+            potionVisible=true;
+        else if(powershotButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY))
+            powershotVisible=true;
+        else if(superchargeButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY))
+            superchargeVisible=true;
+        else {
+            eagleVisible = false;
+            birdquakesVisible = false;
+            potionVisible = false;
+            powershotVisible = false;
+            superchargeVisible = false;
+            Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
+        }
         if (Gdx.input.justTouched()) {
-            float touchX = Gdx.input.getX();
-            float touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
-            if (settingButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY)) {
-                if (visibility) {
-                    visibility = false;
-                } else {
-                    visibility = true;
-                }
-            }
-            if (homeButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY)) {
-                game.setScreen(new HomePage(game));
-            } else if (mapButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY)) {
-                game.setScreen(new Map(game));
-            } else if (birdButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY)) {
-                game.setScreen(new BirdPage(game));
-            }
+            if (visibility && quitButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY))
+                System.exit(0);
+            else if (settingButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY))
+                visibility = !visibility;
+            else {
 
+                visibility = false;
+                if (homeButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY))
+                    game.setScreen(new HomePage(game));
+                else if (mapButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY))
+                    game.setScreen(new Map(game));
+                else if (birdButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY))
+                    game.setScreen(new BirdPage(game));
+            }
         }
 
     }
