@@ -1,11 +1,16 @@
-package com.angybrids;
+package com.angybrids.pages;
 
+import com.angybrids.*;
+import com.angybrids.birds.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+
+import java.lang.reflect.InvocationTargetException;
 
 public class BirdPage implements Screen {
     final Main game;
@@ -43,13 +48,13 @@ public class BirdPage implements Screen {
         this.quitImage = new Texture("icons/exitIcon.png");
         this.saveImage = new Texture("icons/saveIcon.png");
 
-        this.red = new Texture("birds/red.png");
-        this.chuck = new Texture("birds/chuck.png");
-        this.bomb = new Texture("birds/bomb.png");
-        this.terence = new Texture("birds/terence.png");
-        this.blue = new Texture("birds/blue.png");
-        this.hal = new Texture("birds/hal.png");
-        this.matilda = new Texture("birds/matilda.png");
+        this.red = new Red().getImage();
+        this.chuck = new Chuck().getImage();
+        this.bomb = new Bomb().getImage();
+        this.terence = new Terence().getImage();
+        this.blue = new Blue().getImage();
+        this.hal = new Hal().getImage();
+        this.matilda = new Matilda().getImage();
     }
 
     @Override
@@ -102,23 +107,43 @@ public class BirdPage implements Screen {
         }
         game.batch.end();
 
+        float touchX = Gdx.input.getX();
+        float touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
+        if((settingButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY))
+            || (shopButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY))
+            || (mapButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY))
+            || (homeButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY))
+            || (visibility && quitButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY)))
+            Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Hand);
+        else if ( (visibility && saveButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY)) )
+            Gdx.graphics.setSystemCursor(Cursor.SystemCursor.NotAllowed);
+        else
+            Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
+
         if (Gdx.input.justTouched()) {
-            float touchX = Gdx.input.getX();
-            float touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
-            if(settingButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY)) {
-                if(visibility){
-                    visibility=false;
+            if(visibility && quitButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY)) System.exit(0);
+            if(settingButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY))
+                visibility= !visibility;
+            else {
+                visibility = false;
+                if (homeButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY))
+                    game.setScreen(new HomePage(game));
+                else if (mapButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY))
+                    game.setScreen(new Map(game));
+                else if (shopButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY)) {
+                    try {
+                        game.setScreen(new ShopPage(game));
+                    } catch (InvocationTargetException e) {
+                        throw new RuntimeException(e);
+                    } catch (NoSuchMethodException e) {
+                        throw new RuntimeException(e);
+                    } catch (InstantiationException e) {
+                        throw new RuntimeException(e);
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
-                else{
-                    visibility=true;
-                }
-            }
-            if (homeButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY)) {
-                game.setScreen(new HomePage(game));
-            } else if (mapButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY)) {
-                game.setScreen(new Map(game));
-            } else if (shopButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY)) {
-                game.setScreen(new ShopPage(game));
+
             }
         }
     }
