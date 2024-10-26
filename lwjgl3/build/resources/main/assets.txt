@@ -1,20 +1,52 @@
+blocks/wood-vertical.png
+blocks/woodBlock.png
+blocks/stone-vertical.png
+blocks/stone-horizontal.png
+blocks/wood-horizontal.png
+blocks/tnt.png
+blocks/stoneBlock.png
+blocks/glassBlock.png
+blocks/glass-vertical.png
+blocks/glass-horizontal.png
+failTitle.png
 birdPage/title.png
 birdPage/birdBG.png
-pigs/kingpig2.png
+pigs/crazyPig.png
 pigs/kingpig.png
 pigs/pig.png
-catapult.jpeg
+winTitle.png
+loading/title.png
 loading/titleBG.jpeg
 loading/title alt.jpeg
+loading/play_button.png
 loading/title.jpeg
-shopTitle.png
+shop/shopTitle.png
+shop/shopBG.jpg
+shop/shop.jpeg
+shop/coin.png
+levelAssets/bg3.jpeg
+levelAssets/scoreTitle.png
+levelAssets/bg2.jpeg
+levelAssets/bg1.png
+levelAssets/bg3.png
+levelAssets/bg2.png
+levelAssets/bg1.jpeg
+music.mp3
+map/levelSelect.png
 map/mapBG.jpg
 map/mapTitle.png
 icons/saveIcon.png
 icons/homeIcon.png
 icons/mapIcon.png
 icons/birdIcon.png
+icons/nextIcon.png
+icons/winIcon.png
 icons/exitIcon.png
+icons/retryIcon.png
+icons/pauseIcon.png
+icons/loseIcon.png
+icons/resumeIcon.png
+icons/loadIcon.png
 icons/settingIcon.png
 icons/shopIcon.png
 powerUp/potion.png
@@ -22,7 +54,7 @@ powerUp/eagle.png
 powerUp/powershot.png
 powerUp/supercharge.png
 powerUp/birdquake.png
-shop.jpeg
+catapult.png
 birds/bomb.png
 birds/blue.png
 birds/chuck.png
@@ -31,7 +63,4 @@ birds/matilda.png
 birds/red.png
 birds/hal.png
 play_button.png
-level bgs/bg3.jpeg
-level bgs/bg2.jpeg
-level bgs/bg1.jpeg
 login/login.jpeg
