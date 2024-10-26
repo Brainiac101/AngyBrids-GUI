@@ -139,13 +139,8 @@ public class BirdPage implements Screen {
                     try {
                         this.dispose();
                         game.setScreen(new ShopPage(game));
-                    } catch (InvocationTargetException e) {
-                        throw new RuntimeException(e);
-                    } catch (NoSuchMethodException e) {
-                        throw new RuntimeException(e);
-                    } catch (InstantiationException e) {
-                        throw new RuntimeException(e);
-                    } catch (IllegalAccessException e) {
+                    } catch (InvocationTargetException | NoSuchMethodException | InstantiationException |
+                             IllegalAccessException e) {
                         throw new RuntimeException(e);
                     }
                 }

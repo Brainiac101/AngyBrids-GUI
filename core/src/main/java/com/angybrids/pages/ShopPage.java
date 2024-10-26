@@ -1,6 +1,5 @@
 package com.angybrids.pages;
 
-import com.angybrids.blocks.*;
 import com.angybrids.Button;
 import com.angybrids.Main;
 import com.angybrids.powerUps.*;
@@ -16,7 +15,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 
 public class ShopPage implements Screen {
     final Main game;

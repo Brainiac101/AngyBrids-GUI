@@ -1,7 +1,5 @@
 package com.angybrids;
 
-import com.angybrids.Button;
-import com.angybrids.Main;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -9,7 +7,6 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.List;
 
-import com.angybrids.birds.Bird;
 import com.angybrids.pages.LoseScreen;
 import com.angybrids.pages.Map;
 import com.angybrids.pages.WinScreen;
