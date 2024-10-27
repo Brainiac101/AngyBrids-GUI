@@ -1,8 +1,35 @@
 # Angy Brids
 
-A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
+A [libGDX](https://libgdx.com/) project based on the game Angry Birds, generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
 
 This project was generated with a template including simple application launchers and a main class extending `Game` that sets the first screen.
+
+## How to run the code
+
+### Through Terminal
+
+- Run `./gradlew lwjgl3:run` command in the root directory of the project
+- Go to the root directory and run the following command:
+`cd lwjgl3/build/libs && java -jar Angy\ Brids-1.0.0.jar`
+
+### IntelliJ Idea
+
+- Open the `build.gradle` file and select "Open as Project"
+- Open the Gradle Window by following these steps: `View -> Tool Windows -> Gradle`
+- To run the program, double-click the `run` task, accessible through `lwjgl3 -> Tasks -> application`.
+
+### Eclipse
+
+- Choose `File -> Import -> Gradle -> Existing Gradle Project`
+- Right-click the lwjgl3 project -> Run as -> Run Configurations
+- Select Java Application (on the right side)
+- Click the icon at top left to create a new run configuration
+- Select the `Lwjgl3Launcher` class as the Main class
+- Click on the Arguments Tab
+- Under Working Directory (at the bottom), select Other -> Workspace
+> For macOS, add `-XstartOnFirstThread` argument to VM options
+- Select the assets folder
+
 
 ## Platforms
 
@@ -31,3 +58,9 @@ Useful Gradle tasks and flags:
 
 Note that most tasks that are not specific to a single project can be run with `name:` prefix, where the `name` should be replaced with the ID of a specific project.
 For example, `core:clean` removes `build` folder only from the `core` project.
+
+## References
+
+- [libGDX documentation](https://libgdx.com/wiki/)
+- [Stack Overflow](https://stackoverflow.com/)
+- [Quora](https://www.quora.com/)
