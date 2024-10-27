@@ -10,6 +10,7 @@ import java.util.List;
 import com.angybrids.pages.LoseScreen;
 import com.angybrids.pages.Map;
 import com.angybrids.pages.WinScreen;
+import com.angybrids.powerUps.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -25,8 +26,6 @@ import com.angybrids.blocks.*;
 import com.angybrids.pigs.*;
 import com.angybrids.birds.*;
 
-
-@SuppressWarnings("ALL")
 public class Level implements Screen {
     final Main game;
     private int level;
@@ -45,6 +44,13 @@ public class Level implements Screen {
     private ShapeRenderer shapeRenderer;
     private BitmapFont font;
     private boolean visibility;
+
+    private Texture eagleImage;
+    private Texture powershotImage;
+    private Texture superchargeImage;
+    private Texture birdquakeImage;
+    private Texture potionImage;
+
     private ArrayList<Texture> blocks = new ArrayList<>();
     private ArrayList<Sprite> birds = new ArrayList<>();
     private List<Sprite> selectedBirds;
@@ -92,6 +98,12 @@ public class Level implements Screen {
         winImage = new Texture("icons/winIcon.png");
         loseImage = new Texture("icons/loseIcon.png");
         scoreTitle = new Texture("levelAssets/scoreTitle.png");
+
+        this.eagleImage = new Eagle().getImage();
+        this.powershotImage = new Powershot().getImage();
+        this.superchargeImage = new Supercharge().getImage();
+        this.birdquakeImage = new Birdquake().getImage();
+        this.potionImage = new Potion().getImage();
     }
 
     public Level(int level, Main game) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
@@ -143,6 +155,12 @@ public class Level implements Screen {
         winImage = new Texture("icons/winIcon.png");
         loseImage = new Texture("icons/loseIcon.png");
         scoreTitle = new Texture("levelAssets/scoreTitle.png");
+
+        this.eagleImage = new Eagle().getImage();
+        this.powershotImage = new Powershot().getImage();
+        this.superchargeImage = new Supercharge().getImage();
+        this.birdquakeImage = new Birdquake().getImage();
+        this.potionImage = new Potion().getImage();
     }
 
     public List<Sprite> selectItems(ArrayList<Sprite> birds) {
@@ -166,6 +184,13 @@ public class Level implements Screen {
         Button resumeButton = new Button(resume, Gdx.graphics.getWidth() / 2 - 125, Gdx.graphics.getHeight() / 2, 1.4f);
         Button quitButton = new Button(quit, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 + 2, 1.6f);
         Button retryButton = new Button(retry, Gdx.graphics.getWidth() / 2 + 115, Gdx.graphics.getHeight() / 2 + 4, 1.6f);
+        Button eagleButton = new Button(eagleImage, 45, Gdx.graphics.getHeight() - 100, 0.5f);
+        Button powershotButton = new Button(powershotImage, 125, Gdx.graphics.getHeight() - 165, 0.25f);
+        Button superchargeButton = new Button(superchargeImage, 195, Gdx.graphics.getHeight() - 155, 0.35f);
+        Button birdquakeButton = new Button(birdquakeImage, 270, Gdx.graphics.getHeight() - 125, 0.35f);
+        Button potionButton = new Button(potionImage, 350, Gdx.graphics.getHeight() - 125, 0.45f);
+        Button winButton = new Button(winImage, Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() - 100, 1.2f);
+        Button loseButton = new Button(loseImage, Gdx.graphics.getWidth() / 2 + winImage.getWidth() + 25, Gdx.graphics.getHeight() - 100, 1.2f);
         game.batch.begin();
         game.batch.draw(background, 0, 0, width, height);
         int x = 600;
@@ -205,8 +230,11 @@ public class Level implements Screen {
         }
         pauseButton.getButtonSprite().draw(game.batch);
         game.batch.draw(catapult, 200, 100);
-        Button winButton = new Button(winImage, Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() - 65, 1.2f);
-        Button loseButton = new Button(loseImage, Gdx.graphics.getWidth() / 2 + winImage.getWidth() + 25, Gdx.graphics.getHeight() - 65, 1.2f);
+        eagleButton.getButtonSprite().draw(game.batch);
+        powershotButton.getButtonSprite().draw(game.batch);
+        potionButton.getButtonSprite().draw(game.batch);
+        superchargeButton.getButtonSprite().draw(game.batch);
+        birdquakeButton.getButtonSprite().draw(game.batch);
         winButton.getButtonSprite().draw(game.batch);
         loseButton.getButtonSprite().draw(game.batch);
         x = -50;
@@ -227,8 +255,8 @@ public class Level implements Screen {
         font.setColor(0f, 0f, 0f, 1f);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         font.getData().setScale(2.5f);
-        game.batch.draw(scoreTitle, 1050, Gdx.graphics.getHeight() - pause.getHeight() / 2 - 35 );
-        font.draw(game.batch, Integer.toString(score), 1175, Gdx.graphics.getHeight() - pause.getHeight() / 2+3 );
+        game.batch.draw(scoreTitle, 1050, Gdx.graphics.getHeight() - pause.getHeight() / 2 - 35);
+        font.draw(game.batch, Integer.toString(score), 1175, Gdx.graphics.getHeight() - pause.getHeight() / 2 + 3);
         game.batch.end();
         if (visibility) {
             Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -271,12 +299,10 @@ public class Level implements Screen {
                     visibility = false;
                 } else if (quitButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY)) {
                     this.dispose();
-                    background.dispose();
                     game.setScreen(new Map(this.game));
                 } else if (retryButton.getButtonSprite().getBoundingRectangle().contains(touchX, touchY)) {
                     try {
                         this.dispose();
-                        background.dispose();
                         game.setScreen(new Level(level, this.game, selectedBirds));
                     } catch (InvocationTargetException | NoSuchMethodException | InstantiationException |
                              IllegalAccessException e) {
@@ -314,8 +340,12 @@ public class Level implements Screen {
     public void dispose() {
         stonebarhorizontal.dispose();
         woodbarvertical.dispose();
+        scoreTitle.dispose();
+        winImage.dispose();
+        loseImage.dispose();
         shapeRenderer.dispose();
-//        background.dispose();
+        font.dispose();
+        background.dispose();
         pause.dispose();
         quit.dispose();
         resume.dispose();
@@ -323,6 +353,11 @@ public class Level implements Screen {
         catapult.dispose();
         winImage.dispose();
         loseImage.dispose();
+        eagleImage.dispose();
+        powershotImage.dispose();
+        superchargeImage.dispose();
+        birdquakeImage.dispose();
+        potionImage.dispose();
 
     }
 }
