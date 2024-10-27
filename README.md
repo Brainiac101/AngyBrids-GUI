@@ -6,11 +6,12 @@ This project was generated with a template including simple application launcher
 
 ## How to run the code
 
-### Through Terminal
+### Other Methods
 
-- Run `./gradlew lwjgl3:run` command in the root directory of the project
-- Go to the root directory and run the following command:
-`cd lwjgl3/build/libs && java -jar Angy\ Brids-1.0.0.jar`
+- Double-click on the `Angy Brids-1.0.0.jar` file
+- Alternatively, to run through the terminal, go to the root directory of the project and run the following command:
+
+```java -jar Angy\ Brids-1.0.0.jar```
 
 ### IntelliJ Idea
 
@@ -64,3 +65,5 @@ For example, `core:clean` removes `build` folder only from the `core` project.
 - [libGDX documentation](https://libgdx.com/wiki/)
 - [Stack Overflow](https://stackoverflow.com/)
 - [Quora](https://www.quora.com/)
+- [Google Images](https://images.google.com/)
+- [Angry Birds Official Website](https://www.angrybirds.com/)
