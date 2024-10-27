@@ -6,12 +6,12 @@ This project was generated with a template including simple application launcher
 
 ## How to run the code
 
-### Other Methods
-
 - Double-click on the `Angy Brids-1.0.0.jar` file
 - Alternatively, to run through the terminal, go to the root directory of the project and run the following command:
 
 ```java -jar Angy\ Brids-1.0.0.jar```
+
+If you prefer to run through an IDE, follow the steps given belown to run the project.
 
 ### IntelliJ Idea
 
